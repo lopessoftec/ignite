@@ -1,9 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const isDevelopment = process.env.NODE_ENV !== "production";
+
 module.exports = {
-  mode: "development",
-  devtool: "eval-source-map",
+  mode: isDevelopment ? "development" : "production",
+  devtool: isDevelopment ? "eval-source-map" : "<source-></source->map",
   // qual o arquivo principal
   entry: path.resolve(__dirname, "src", "index.jsx"),
   // qual arquivo irei gerar
