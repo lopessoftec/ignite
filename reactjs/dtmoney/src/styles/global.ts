@@ -38,7 +38,7 @@ export const GlobalStyle = createGlobalStyle`
     //REM = 1 rem = 16px
 
     body {
-        background: var(---background);
+        background: var(--background);
         /* deixar as fontes mais detalhadas */
         -webkit-font-smoothing: antialiased;
     }
