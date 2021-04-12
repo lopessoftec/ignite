@@ -48,6 +48,7 @@ function handleSetTypeDeposit(){}
                         onClick={() => {setType('deposit');}}
                         // isActive eu criei o nome, aqui vai retorna true ou false
                         isActive={type === 'deposit'}
+                        activeColor="green"
                         >
                             <img src={incomeImg} alt="Entrada"/>
                             <span>Entrada</span>
@@ -57,6 +58,7 @@ function handleSetTypeDeposit(){}
                         type="button"
                         onClick={() => {setType('withdraw');}}
                         isActive={type === 'withdraw'}
+                        activeColor="red"
                         >
                             <img src={outcomeImg} alt="Saida"/>
                             <span>Saida</span>
