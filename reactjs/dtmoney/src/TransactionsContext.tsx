@@ -10,12 +10,32 @@ interface Transaction {
     createdAt: string;
 }
 
+// interface TransactionInput {
+//     title: string;
+//     amount: number;
+//     type: string;
+//     category: string;
+// }
+
+// irá pergar todos menos o id e o createdAt
+type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
+
+// o pick irá adicionar só os campos especificados
+// type TransactionInput = Pick<Transaction, 'title' | 'amount' | 'type' | 'category'>;
+
 interface TransactionsProviderProps {
     // aceita qualquer coisa
     children: ReactNode;
 }
 
-export const TransactionsContext = createContext<Transaction[]>([]);
+interface TransactionsContextData {
+    transactions: Transaction[];
+    createTransaction: (transaction: TransactionInput) => void; //retorna void a função
+}
+
+export const TransactionsContext = createContext<TransactionsContextData>(
+    {} as TransactionsContextData //forçando a a dizer que pertence a esse tipo ai
+);
 
 export function TransactionsProvider({children}: TransactionsProviderProps){
     const [transactions, setTransactions] = useState<Transaction[]>([])
@@ -25,8 +45,12 @@ export function TransactionsProvider({children}: TransactionsProviderProps){
         .then(response => setTransactions(response.data.transactions))
     }, []);
 
+    function createTransaction(transaction: TransactionInput){
+        api.post('/transactions', transaction);
+    }
+
     return (
-        <TransactionsContext.Provider value={transactions}>
+        <TransactionsContext.Provider value={{ transactions, createTransaction }}>
             {children}
         </TransactionsContext.Provider>
     )
