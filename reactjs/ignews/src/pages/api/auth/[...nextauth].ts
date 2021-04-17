@@ -21,9 +21,29 @@ export default NextAuth({
       // se deu erro ao acessar o banco ele não faz login
       try {
         await fauna.query(
-          q.Create(
-            q.Collection('users'),
-            { data: { email } }
+          // se ão existir um usuario com aquele email
+          q.If(
+            q.Not(
+              q.Exists(
+                // where o de baixo
+                q.Match(
+                  q.Index('user_by_email'),
+                  q.Casefold(user.email)
+                )
+              )
+            ),
+            // se não existe ele cria
+            q.Create(
+              q.Collection('users'),
+              { data: { email } }
+            ),
+            // select
+            q.Get(
+              q.Match(
+                q.Index('user_by_email'),
+                q.Casefold(user.email)
+              )
+            )
           )
         )
   
